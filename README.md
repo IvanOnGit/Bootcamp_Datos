@@ -37,3 +37,76 @@ plt.figure(figsize=(10, 6)) plt.scatter(df_sales_profit['Sales'], df_sales_profi
 
 Una vez que realicé el modelo lógico decidí comenzar a crear las tablas para el modelo físico de la siguiente manera:
 
+Para la entidad Order:
+
+df_order = df.select(
+    df["Row ID"].cast("int").alias("Row_ID"),
+    df["Order ID"].cast("string").alias("Order_ID"),
+    df["Order Date"].cast("timestamp").alias("Order_Date"),
+    df["Ship Date"].cast("timestamp").alias("Ship_Date"),
+    df["Ship Mode"].cast("string").alias("Ship_Mode"),
+    df["Customer ID"].cast("string").alias("Customer_ID")
+)
+
+display(df_order)
+
+df_order.write.format("parquet").mode("overwrite").saveAsTable("order_table")
+
+Para la entidad Product:
+
+df_product = df.select(
+    df["Product ID"].cast("string").alias("Product_ID"),
+    df["Category"].cast("string").alias("Category"),
+    df["Sub-Category"].cast("string").alias("Sub-Category"),
+    df["Product Name"].cast("string").alias("Product_Name")
+)
+
+display(df_product)
+
+df_product.write.format("parquet").mode("overwrite").saveAsTable("product_table")
+
+Para la entidad Order Product:
+
+df_order_product = df.select(
+    df["Quantity"].cast("int").alias("Quantity"),
+    df["Discount"].cast("decimal(10,2)").alias("Discount"),
+    df["Sales"].cast("decimal(10,2)").alias("Sales"),
+    df["Profit"].cast("decimal(10,2)").alias("Profit")
+)
+
+display(df_order_product)
+
+df_order_product.write.format("parquet").mode("overwrite").saveAsTable("order_product_table")
+
+Para la entidad Ship Mode:
+
+df_ship_mode = df.select(
+    df["Ship Mode"].cast("string").alias("Ship_Mode_ID")
+)
+
+display(df_ship_mode)
+
+df_ship_mode.write.format("parquet").mode("overwrite").saveAsTable("ship_mode_table")
+
+Para la entidad Customer:
+
+df_customer = df.select(
+    df["Customer ID"].cast("string").alias("Customer_ID"),
+    df["Customer Name"].cast("string").alias("Customer_Name"),
+    df["Segment"].cast("string").alias("Segment"),
+    df["Country"].cast("string").alias("Country"),
+    df["City"].cast("string").alias("City"),
+    df["State"].cast("string").alias("State"),
+    df["Postal Code"].cast("string").alias("Postal_Code"),
+    df["Region"].cast("string").alias("Region")
+)
+
+display(df_customer)
+
+df_customer.write.format("parquet").mode("overwrite").saveAsTable("customer_table")
+
+Todos fueron chequeados posteriormente con SQL usando el comando:
+
+SELECT * FROM nombre_tabla
+
+Y devolvieron todos correctamente los datos.
