@@ -33,3 +33,7 @@ df_sales_profit = df.select("Sales", "Profit").filter(df["Discount"] > 0.1).toPa
 Luego grafiqué el gráfico de dispersión:
 
 plt.figure(figsize=(10, 6)) plt.scatter(df_sales_profit['Sales'], df_sales_profit['Profit'], alpha=0.5) plt.title('Relación entre Ventas y Ganancias') plt.xlabel('Ventas') plt.ylabel('Ganancias') plt.show()
+
+
+Una vez que realicé el modelo lógico decidí comenzar a crear las tablas para el modelo físico de la siguiente manera:
+
